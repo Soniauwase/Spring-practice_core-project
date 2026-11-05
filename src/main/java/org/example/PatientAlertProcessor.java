@@ -1,37 +1,20 @@
 package org.example;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
+@Service
 public class PatientAlertProcessor {
-    public void processEmergencyAlert(String p002, String s) {
+    @Autowired
+    private NotificationService notificationService;
+    private EmergencyNotificationService emergencyNotificationService;
+
+    public void send(String patient_id, String message){
+        notificationService.sendNotification(patient_id,message);
+
     }
 
-    public void processRoutineAlert(String p001, String s) {
-    }
 
-    @Component
-    public class PatientAlertProcessors {
-
-        @Autowired
-        private NotificationService notificationService;
-
-        @Autowired
-        @Qualifier("emergencyServices")
-        private NotificationService emergencyService;
-
-
-        public void processRoutineAlert(String patientId, String message) {
-
-            notificationService.sendNotification(patientId, message);
-
-        }
-
-        public void processEmergencyAlert(String patientId, String message) {
-
-            emergencyService.sendNotification(patientId, message);
-
-        }
-    }
-};
+}
